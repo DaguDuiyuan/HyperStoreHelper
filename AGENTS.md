@@ -121,6 +121,7 @@ Hook 实现必须遵守：
 15. F9 只移除下载队列页的 `installRecord` / `recForYou` 推荐分组和本地「最近安装完成」模块，不得删除真实下载任务或阻断下载/安装操作。
 16. F11 不得跳过升级页 `loadRecommendData()` 等宿主加载流程，只能在推荐分组、推荐网格和相关推荐数据生成/渲染处过滤；必须保留真实升级列表、升级全部按钮和本地升级检查。
 17. F12 在旧版 `UpdateListRvAdapter.updateData(List)` 和 V2 `UpdateComponentManager.buildComponentList(...)` 前设置展开状态；不得修改真实升级数据、排序或模拟点击折叠按钮。
+18. 金米奖 H5 缓存只能对 `zone/goldMiV2` 注入宿主已有的 H5 代理 LRU 参数并按日期分桶；不得全局开启 H5 缓存或影响其它 WebView 请求。
 
 构建基线：
 

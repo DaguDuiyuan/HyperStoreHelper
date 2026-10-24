@@ -2,13 +2,14 @@
 
 面向 HyperOS 4 小米应用商店（`com.xiaomi.market`）的 LSPosed 模块，实现 `SPEC.md`
 中已确认的十项界面净化与交互开关；其中九项默认开启，「隐藏榜单导航」默认关闭。
+另包含金米奖页面 H5 数据缓存优化。
 
 ## 目标版本
 
 - 宿主：`com.xiaomi.market` `4.129.s.00`（versionCode `40007700`）
 - 基线设备：Xiaomi 14，HyperOS `OS4.0.18.0.XNCCNXM`
 - 模块 ID：`com.dagu.hyperstorehelper`
-- 模块版本：`1.10.0`（versionCode `11`）
+- 模块版本：`1.11.0`（versionCode `12`）
 - 日志 tag：`HyperStore-AdFree`
 - Xposed API：102
 
@@ -24,6 +25,7 @@
 - 隐藏底部「榜单」导航（默认关闭）
 - 应用升级页去除「精选推荐」「热门下载」「大家还安装了」（默认开启）
 - 自动展开应用升级列表（默认开启）
+- 金米奖页面 H5 数据缓存（默认生效，不提供独立开关）
 
 「我的 → 设置」中的独立设置页展示全部十项开关，右上角提供重启应用按钮。
 
@@ -33,11 +35,6 @@
 export JAVA_HOME=/path/to/standard-jdk-17
 ./gradlew :app:assembleDebug
 ```
-
-需要标准 OpenJDK / Corretto 17。部分 GraalVM 17 自带的 `jlink` 无法完成 AGP 9.4 的
-Android 36 JDK image 转换，会表现为 `JdkImageTransform` 失败；这不是源码错误。
-
-产物：`app/build/outputs/apk/debug/app-debug.apk`
 
 ## 当前验证状态
 
@@ -49,6 +46,7 @@ Android 36 JDK image 转换，会表现为 `JdkImageTransform` 失败；这不�
   真机确认开关打开/关闭、重启生效和首页回退。
 - `1.9.0` 已实现「我的」页预加载和底部导航动画修正；底部导航动画仍需用户手动确认。
 - `1.10.0` 已实现应用升级页推荐区块移除和升级列表自动展开，并已抓取 F11/F12 命中日志。
+- `1.11.0` 已实现金米奖 `goldMiV2` H5 缓存，命中日志确认缓存响应约 12ms 返回。
 - 搜索、下载、安装、更新、卸载、重启按钮和完整前后台回归仍需继续验收。
 - 在完成完整真机验收前，不应把任何功能标记为「已验证生效」。
 

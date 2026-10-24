@@ -83,6 +83,17 @@ public final class Host {
     public static final String FIELD_UPDATE_PAGE_COLLAPSE_STATE = "pageCollapseState";
     public static final String UPDATE_PAGE_COLLAPSE_EXPAND = "Expand";
 
+    public static final String CLASS_WEB_EVENT =
+            "com.xiaomi.market.common.webview.WebEvent";
+    public static final String METHOD_WEB_EVENT_REQUEST = "request";
+    public static final String METHOD_WEB_EVENT_SEND_CALLBACK = "sendDataToCallback";
+    public static final String GOLDEN_AWARD_REQUEST_MARKER = "goldmi";
+    public static final String WEB_EVENT_PARAM_SHOULD_INTERCEPT =
+            "shouldNativeInterceptRequest";
+    public static final String WEB_EVENT_PARAM_NEED_LRU_CACHE = "needLruCache";
+    public static final String WEB_EVENT_PARAM_DIGEST = "digestParams";
+    public static final String WEB_EVENT_PARAM_PROXY_TIMEOUT = "proxyTimeout";
+
     public static final String CLASS_DOUBLE_TAB_PROXY_ACTIVITY_WRAPPER =
             "com.xiaomi.market.ui.DoubleTabProxyActivityWrapper";
     public static final String METHOD_DOUBLE_TAB_INIT_TAB = "initTab";

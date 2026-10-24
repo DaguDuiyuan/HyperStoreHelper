@@ -23,6 +23,10 @@ public final class HelperPrefs {
     public static final String KEY_GAME_RANK_ADS = "helper_game_rank_ads";
     public static final String KEY_DOWNLOAD_RECOMMENDATIONS =
             "helper_download_recommendations";
+    public static final String KEY_UPDATE_PAGE_RECOMMENDATIONS =
+            "helper_update_page_recommendations";
+    public static final String KEY_UPDATE_AUTO_EXPAND =
+            "helper_update_auto_expand";
 
     public static final Feature[] FEATURES = {
             new Feature(
@@ -58,6 +62,14 @@ public final class HelperPrefs {
                     KEY_DOWNLOAD_RECOMMENDATIONS,
                     "下载页去除推荐区块",
                     "移除「最近安装完成」「大家还安装了」和「为你优选」"),
+            new Feature(
+                    KEY_UPDATE_PAGE_RECOMMENDATIONS,
+                    "应用升级页去除推荐区块",
+                    "移除应用升级页的「精选推荐」「热门下载」「大家还安装了」"),
+            new Feature(
+                    KEY_UPDATE_AUTO_EXPAND,
+                    "自动展开应用升级列表",
+                    "进入应用升级页时直接展示全部可升级应用，不显示折叠行"),
     };
 
     private static volatile Context sAppContext;

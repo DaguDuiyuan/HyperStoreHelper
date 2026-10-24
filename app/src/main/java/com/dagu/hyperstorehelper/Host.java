@@ -59,6 +59,30 @@ public final class Host {
             "为你优选",
     };
 
+    public static final String CLASS_UPDATE_LIST_V2_FRAGMENT =
+            "com.xiaomi.market.ui.update.UpdateListV2Fragment";
+    public static final String METHOD_UPDATE_ON_REFRESH_PAGE_DATA = "onRefreshPageData";
+    public static final String CLASS_UPDATE_LIST_FRAGMENT =
+            "com.xiaomi.market.ui.UpdateListFragment";
+    public static final String CLASS_UPDATE_LIST_RV_ADAPTER =
+            "com.xiaomi.market.ui.UpdateListRvAdapter";
+    public static final String METHOD_UPDATE_GENERATE_RECOMMEND_GROUP_ITEMS =
+            "generateRecommendGroupItems";
+    public static final String METHOD_UPDATE_ADD_RELATED_RECOMMEND = "addRelatedRecommend";
+    public static final String METHOD_UPDATE_GRID_RECOMMEND = "updateGridRecommend";
+    public static final String METHOD_UPDATE_RV_UPDATE_DATA = "updateData";
+    public static final String CLASS_UPDATE_RV_PAGE_COLLAPSE_STATE =
+            "com.xiaomi.market.ui.UpdateListRvAdapter$PageCollapseState";
+    public static final String FIELD_UPDATE_RV_PAGE_COLLAPSE_STATE = "pageCollapseState";
+    public static final String CLASS_UPDATE_COMPONENT_MANAGER =
+            "com.xiaomi.market.ui.update.UpdateComponentManager";
+    public static final String CLASS_UPDATE_PAGE_COLLAPSE_STATE =
+            "com.xiaomi.market.ui.update.UpdateComponentManager$PageCollapseState";
+    public static final String CLASS_UI_CONTEXT = "com.xiaomi.market.ui.UIContext";
+    public static final String METHOD_UPDATE_BUILD_COMPONENT_LIST = "buildComponentList";
+    public static final String FIELD_UPDATE_PAGE_COLLAPSE_STATE = "pageCollapseState";
+    public static final String UPDATE_PAGE_COLLAPSE_EXPAND = "Expand";
+
     public static final String CLASS_DOUBLE_TAB_PROXY_ACTIVITY_WRAPPER =
             "com.xiaomi.market.ui.DoubleTabProxyActivityWrapper";
     public static final String METHOD_DOUBLE_TAB_INIT_TAB = "initTab";

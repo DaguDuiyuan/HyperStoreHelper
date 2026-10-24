@@ -18,6 +18,7 @@ import com.dagu.hyperstorehelper.hooks.HomeStartupHook;
 import com.dagu.hyperstorehelper.hooks.MinePagePreloadHook;
 import com.dagu.hyperstorehelper.hooks.MineRecommendationsHook;
 import com.dagu.hyperstorehelper.hooks.StartupAdsHook;
+import com.dagu.hyperstorehelper.hooks.StatusBarIconsHook;
 import com.dagu.hyperstorehelper.hooks.UpdateAutoExpandHook;
 import com.dagu.hyperstorehelper.hooks.UpdateRecommendationsHook;
 import com.dagu.hyperstorehelper.settings.SettingsHook;
@@ -67,6 +68,7 @@ public final class Main extends XposedModule {
         hooks.add(new HideRankTabHook(this, prefs));
         hooks.add(new MineRecommendationsHook(this, prefs));
         hooks.add(new HomeStartupHook(this, prefs));
+        hooks.add(new StatusBarIconsHook(this, prefs));
         hooks.add(new StartupAdsHook(this, prefs));
         hooks.add(new GameRankAdsHook(this, prefs));
         hooks.add(new DownloadRecommendationsHook(this, prefs));

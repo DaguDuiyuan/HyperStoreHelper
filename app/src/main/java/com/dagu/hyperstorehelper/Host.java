@@ -118,6 +118,13 @@ public final class Host {
             "com.xiaomi.market.ui.BaseMarketPreference";
     public static final String METHOD_ON_CREATE_PREFERENCES = "onCreatePreferences";
 
+    public static final String CLASS_UI_UTILS = "com.xiaomi.market.util.UIUtils";
+    public static final String CLASS_CLIENT = "com.xiaomi.market.util.Client";
+    public static final String METHOD_SET_STATUS_BAR_DARK_MODE = "setStatusBarDarkMode";
+    public static final String METHOD_SET_STATUS_BAR_DARK_MODE_V2 =
+            "setStatusBarDarkModeV2";
+    public static final String METHOD_CLIENT_IS_ENABLE_DARK_MODE = "isEnableDarkMode";
+
     public static final String CLASS_MARKET_PREFERENCE_ACTIVITY =
             "com.xiaomi.market.ui.MarketPreferenceActivity";
     public static final String CLASS_ACTION_BAR = "miuix.appcompat.app.ActionBar";

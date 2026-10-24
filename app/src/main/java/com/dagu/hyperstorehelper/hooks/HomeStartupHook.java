@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import io.github.libxposed.api.XposedModule;
 
-/** F5: normal launcher starts and page rebuilds select the home bottom tab. */
+/** F3 companion: normal launcher starts and page rebuilds select the home bottom tab. */
 public final class HomeStartupHook extends BaseHook {
 
     private final AtomicBoolean logged = new AtomicBoolean();
@@ -61,32 +61,32 @@ public final class HomeStartupHook extends BaseHook {
 
     private void forceHomeOnLauncherIntent(
             Object wrapper, Class<?> pageConfigClass, String reason) {
-        if (!enabled(HelperPrefs.KEY_START_IN_HOME)) {
+        if (!enabled(HelperPrefs.KEY_BOTTOM_NAV_GAMES)) {
             return;
         }
         try {
             Object activityValue = Reflect.readField(wrapper, Host.FIELD_PROXY_ACTIVITY);
             if (!(activityValue instanceof Activity)) {
-                logWarn("F5 proxy activity not found; keeping host selection");
+                logWarn("F3 proxy activity not found; keeping host selection");
                 return;
             }
             Intent intent = ((Activity) activityValue).getIntent();
             forceHome(wrapper, pageConfigClass, intent, reason);
         } catch (Throwable throwable) {
-            logFailure("F5 force home on startup failed", throwable);
+            logFailure("F3 force home on startup failed", throwable);
         }
     }
 
     private boolean forceHome(
             Object wrapper, Class<?> pageConfigClass, Intent intent, String reason) {
-        if (!enabled(HelperPrefs.KEY_START_IN_HOME)
+        if (!enabled(HelperPrefs.KEY_BOTTOM_NAV_GAMES)
                 || !isNormalLauncherIntent(intent)) {
             return false;
         }
         try {
             int homeIndex = findHomeIndex(wrapper);
             if (homeIndex < 0) {
-                logWarn("F5 home tab not found; keeping host selection");
+                logWarn("F3 home tab not found; keeping host selection");
                 return false;
             }
             boolean tabWritten = Reflect.writeField(
@@ -98,15 +98,15 @@ public final class HomeStartupHook extends BaseHook {
                     Host.FIELD_DEFAULT_BOTTOM_TAB_INDEX,
                     homeIndex);
             if (!tabWritten || !subTabWritten || !defaultWritten) {
-                logWarn("F5 could not update all tab selection fields; keeping host selection");
+                logWarn("F3 could not update all tab selection fields; keeping host selection");
                 return false;
             }
             if (logged.compareAndSet(false, true)) {
-                logInfo("F5 " + reason + " selected home index=" + homeIndex);
+                logInfo("F3 " + reason + " selected home index=" + homeIndex);
             }
             return true;
         } catch (Throwable throwable) {
-            logFailure("F5 force home failed", throwable);
+            logFailure("F3 force home failed", throwable);
             return false;
         }
     }

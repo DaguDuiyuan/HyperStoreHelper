@@ -18,14 +18,12 @@ public final class HelperPrefs {
     public static final String KEY_BOTTOM_NAV_GAMES = "helper_bottom_nav_games";
     public static final String KEY_PROFILE_APP_RECOMMENDATIONS =
             "helper_profile_app_recommendations";
-    public static final String KEY_START_IN_HOME = "helper_start_in_home";
-    public static final String KEY_STATUS_BAR_ICONS = "helper_status_bar_icons";
     public static final String KEY_STARTUP_ADS = "helper_startup_ads";
 
     public static final Feature[] FEATURES = {
             new Feature(
                     KEY_HOME_FRUIT_ENTRY,
-                    "去除首页送水果入口",
+                    "首页去除送水果入口",
                     "隐藏首页顶部的送水果 / 种果树活动入口"),
             new Feature(
                     KEY_HOME_TOP_TABS,
@@ -33,20 +31,12 @@ public final class HelperPrefs {
                     "仅保留金米奖、软件、分类，并按此顺序排列"),
             new Feature(
                     KEY_BOTTOM_NAV_GAMES,
-                    "去除底部游戏导航",
-                    "仅移除底部「游戏」导航项，不影响其它游戏入口"),
+                    "去除底部游戏导航并固定首页",
+                    "移除底部「游戏」导航项；正常启动固定进入首页，不改变深链目标"),
             new Feature(
                     KEY_PROFILE_APP_RECOMMENDATIONS,
                     "去除我的页面应用推荐",
                     "不再创建「我的」页面中的应用推荐模块"),
-            new Feature(
-                    KEY_START_IN_HOME,
-                    "正常启动固定进入首页",
-                    "从桌面图标打开或重建页面时停在首页，不改变深链目标"),
-            new Feature(
-                    KEY_STATUS_BAR_ICONS,
-                    "修正深色模式状态栏图标",
-                    "深色模式使用白色图标，浅色模式使用深色图标"),
             new Feature(
                     KEY_STARTUP_ADS,
                     "去除启动广告",

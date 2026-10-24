@@ -44,12 +44,14 @@ public final class Host {
             "com.xiaomi.market.ui.BaseMarketPreference";
     public static final String METHOD_ON_CREATE_PREFERENCES = "onCreatePreferences";
 
-    public static final String CLASS_UI_UTILS = "com.xiaomi.market.util.UIUtils";
-    public static final String CLASS_CLIENT = "com.xiaomi.market.util.Client";
-    public static final String METHOD_SET_STATUS_BAR_DARK_MODE = "setStatusBarDarkMode";
-    public static final String METHOD_SET_STATUS_BAR_DARK_MODE_V2 =
-            "setStatusBarDarkModeV2";
-    public static final String METHOD_CLIENT_IS_ENABLE_DARK_MODE = "isEnableDarkMode";
+    public static final String CLASS_MARKET_PREFERENCE_ACTIVITY =
+            "com.xiaomi.market.ui.MarketPreferenceActivity";
+    public static final String CLASS_ACTION_BAR = "miuix.appcompat.app.ActionBar";
+    public static final String EXTRA_HELPER_PAGE =
+            "com.dagu.hyperstorehelper.extra.HELPER_PAGE";
+    public static final String FIELD_BASE_ACTION_BAR = "mActionBar";
+    /** Obfuscated name in 4.129.s.00: ActionBar.setEndView(View). */
+    public static final String METHOD_ACTION_BAR_SET_END_VIEW = "g0";
 
     public static final String CLASS_SPLASH_MANAGER =
             "com.xiaomi.market.ui.splash.SplashManager";
@@ -60,6 +62,8 @@ public final class Host {
     public static final String METHOD_SPLASH_GET_INSTANCE = "getInstance";
     public static final String METHOD_SPLASH_ON_END = "onSplashEnd";
     public static final String METHOD_SPLASH_TASK_RUN = "run";
+    public static final String METHOD_SPLASH_TRY_AD = "tryAdSplash";
+    public static final String METHOD_SPLASH_HIDE_COVER = "hideSplashCover";
 
     public static final String PARENT_HOME_TAB = "native_market_home";
     public static final String BOTTOM_GAME_TAB = "native_market_game";

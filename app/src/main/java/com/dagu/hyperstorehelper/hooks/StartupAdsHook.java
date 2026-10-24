@@ -1,6 +1,8 @@
 package com.dagu.hyperstorehelper.hooks;
 
 import android.app.Activity;
+import android.content.Context;
+import android.view.View;
 
 import com.dagu.hyperstorehelper.Host;
 import com.dagu.hyperstorehelper.Reflect;
@@ -26,31 +28,66 @@ public final class StartupAdsHook extends BaseHook {
     public void install(ClassLoader cl) {
         Class<?> splashManager = Reflect.loadClass(cl, Host.CLASS_SPLASH_MANAGER);
         Class<?> splashTask = Reflect.loadClass(cl, Host.CLASS_SPLASH_TASK);
-        Method run = Reflect.findMethod(splashTask, Host.METHOD_SPLASH_TASK_RUN);
+        Method tryAdSplash = Reflect.findMethod(
+                splashManager,
+                Host.METHOD_SPLASH_TRY_AD,
+                Activity.class,
+                String.class);
         Method getInstance = Reflect.findMethod(
                 splashManager, Host.METHOD_SPLASH_GET_INSTANCE);
-        Method onSplashEnd = Reflect.findMethod(
+        Method hideSplashCover = Reflect.findMethod(
                 splashManager,
-                Host.METHOD_SPLASH_ON_END,
-                Activity.class,
-                String.class,
-                int.class,
+                Host.METHOD_SPLASH_HIDE_COVER,
+                Context.class,
                 boolean.class);
-        if (run == null || getInstance == null || onSplashEnd == null) {
-            logWarn(Host.CLASS_SPLASH_TASK
-                    + ".run() or SplashManager cleanup methods not found");
+        if (hideSplashCover == null) {
+            hideSplashCover = Reflect.findMethod(
+                    splashManager,
+                    Host.METHOD_SPLASH_HIDE_COVER,
+                    Activity.class,
+                    boolean.class);
+        }
+
+        if (tryAdSplash == null) {
+            logWarn(Host.CLASS_SPLASH_MANAGER + ".tryAdSplash(Activity, String) not found");
+        } else if (getInstance == null || hideSplashCover == null) {
+            logWarn(Host.CLASS_SPLASH_MANAGER
+                    + ".getInstance()/hideSplashCover(Context, boolean) not found");
+        } else {
+            Method managerGetter = getInstance;
+            Method hideCover = hideSplashCover;
+            hook(tryAdSplash).intercept(chain -> {
+                Object activity = chain.getArg(0);
+                if (!enabled(HelperPrefs.KEY_STARTUP_ADS)
+                        || !isMarketMainActivity(activity)) {
+                    return chain.proceed();
+                }
+                scheduleCleanup((Activity) activity, managerGetter, hideCover);
+                if (logged.compareAndSet(false, true)) {
+                    logInfo("F7 startup splash ad skipped before request for "
+                            + activity.getClass().getName());
+                }
+                return null;
+            });
+        }
+
+        Method run = Reflect.findMethod(splashTask, Host.METHOD_SPLASH_TASK_RUN);
+        if (run == null) {
+            logWarn(Host.CLASS_SPLASH_TASK + ".run() not found");
             return;
         }
+        if (getInstance == null || hideSplashCover == null) {
+            return;
+        }
+        Method managerGetter = getInstance;
+        Method hideCover = hideSplashCover;
         hook(run).intercept(chain -> {
             Object activity = splashTaskActivity(chain.getThisObject());
             if (enabled(HelperPrefs.KEY_STARTUP_ADS) && isMarketMainActivity(activity)) {
-                Activity mainActivity = (Activity) activity;
-                if (!finishWithoutAd(mainActivity, getInstance, onSplashEnd)) {
-                    return chain.proceed();
-                }
+                scheduleCleanup((Activity) activity, managerGetter, hideCover);
                 if (logged.compareAndSet(false, true)) {
-                    logInfo("F7 startup splash ad suppressed for "
-                            + mainActivity.getClass().getName());
+                    logInfo("F7 startup splash ad task suppressed for "
+                            + activity.getClass().getName());
                 }
                 return null;
             }
@@ -58,15 +95,32 @@ public final class StartupAdsHook extends BaseHook {
         });
     }
 
-    private boolean finishWithoutAd(
-            Activity activity, Method getInstance, Method onSplashEnd) {
+    /**
+     * The host replaces its temporary splash cover as soon as the ad task ends.
+     * Run the same cleanup after the activity has drawn its first frame so the
+     * skip is not defeated by onSplashEnd's ActivityMonitor guard during cold start.
+     */
+    private void scheduleCleanup(
+            Activity activity, Method getInstance, Method hideSplashCover) {
+        Runnable cleanup = () -> {
+            try {
+                Object manager = getInstance.invoke(null);
+                if (manager == null) {
+                    logWarn("F7 SplashManager instance unavailable during cleanup");
+                    return;
+                }
+                hideSplashCover.invoke(manager, activity, false);
+            } catch (Throwable throwable) {
+                logFailure("F7 dismiss temporary splash cover failed", throwable);
+            }
+        };
         try {
-            Object manager = getInstance.invoke(null);
-            onSplashEnd.invoke(manager, activity, "", -1, false);
-            return true;
+            View decorView = activity.getWindow().getDecorView();
+            decorView.postOnAnimation(cleanup);
+            // Retry once for slow cold starts where the first frame is not resumed yet.
+            decorView.postDelayed(cleanup, 120L);
         } catch (Throwable throwable) {
-            logFailure("F7 finish canceled startup ad task failed", throwable);
-            return false;
+            logFailure("F7 schedule splash cleanup failed", throwable);
         }
     }
 

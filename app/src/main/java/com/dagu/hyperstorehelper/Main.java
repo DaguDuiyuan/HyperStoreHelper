@@ -12,7 +12,6 @@ import com.dagu.hyperstorehelper.hooks.HomeTopTabsHook;
 import com.dagu.hyperstorehelper.hooks.HomeStartupHook;
 import com.dagu.hyperstorehelper.hooks.MineRecommendationsHook;
 import com.dagu.hyperstorehelper.hooks.StartupAdsHook;
-import com.dagu.hyperstorehelper.hooks.StatusBarIconsHook;
 import com.dagu.hyperstorehelper.settings.SettingsHook;
 
 import java.util.ArrayList;
@@ -59,7 +58,6 @@ public final class Main extends XposedModule {
         hooks.add(new BottomNavGamesHook(this, prefs));
         hooks.add(new MineRecommendationsHook(this, prefs));
         hooks.add(new HomeStartupHook(this, prefs));
-        hooks.add(new StatusBarIconsHook(this, prefs));
         hooks.add(new StartupAdsHook(this, prefs));
         hooks.add(new SettingsHook(this, prefs));
         return hooks;

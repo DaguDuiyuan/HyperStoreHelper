@@ -123,6 +123,14 @@ public final class Reflect {
         return method.invoke(target);
     }
 
+    public static Object invokeNoArgSafe(Object target, String methodName) {
+        try {
+            return invokeNoArg(target, methodName);
+        } catch (Throwable ignored) {
+            return null;
+        }
+    }
+
     public static Object objectMethod(Object proxy, Method method, Object[] args) {
         switch (method.getName()) {
             case "equals":

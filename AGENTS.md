@@ -55,16 +55,14 @@ shasum -a 256 artifacts/com.xiaomi.market/<versionName>/base.apk
 
 ## 当前功能范围
 
-当前实现 `SPEC.md` 定义的七项功能，七项均为 P0、默认开启且必须独立可控：
+当前实现 `SPEC.md` 定义的五项功能，五项均为 P0、默认开启且必须独立可控：
 
 | ID | 功能 | 开关键 |
 | --- | --- | --- |
 | `F1` | 首页顶部去除「送水果」入口 | `helper_home_fruit_entry` |
 | `F2` | 首页顶部 Tab 仅保留「金米奖、软件、分类」，并按规定顺序排列 | `helper_home_top_tabs` |
-| `F3` | 底部导航栏去除「游戏」 | `helper_bottom_nav_games` |
+| `F3` | 底部导航栏去除「游戏」，并让正常启动固定进入首页 | `helper_bottom_nav_games` |
 | `F4` | 「我的」页面去除「应用推荐」 | `helper_profile_app_recommendations` |
-| `F5` | 正常启动固定进入首页 | `helper_start_in_home` |
-| `F6` | 修正深色模式状态栏图标 | `helper_status_bar_icons` |
 | `F7` | 去除主页面启动广告 | `helper_startup_ads` |
 
 信息流广告、搜索广告、应用详情页被动开屏广告、更新弹窗和红点等仍不在当前范围。任何新增功能必须先修改 `SPEC.md` 并取得确认。
@@ -82,7 +80,7 @@ app/src/main/java/com/dagu/hyperstorehelper/
     Reflect.java              空安全的反射工具
     core/                     BaseHook、Feature、HelperPrefs
     hooks/                    每个净化项一个独立 Hook
-    settings/                宿主设置页入口和开关 UI（需要时再加）
+    settings/                宿主设置页入口、独立净化设置页和重启按钮
 app/src/main/resources/META-INF/xposed/
     java_init.list            API 102 入口
     module.prop               minApiVersion=102 / targetApiVersion=102 / staticScope=true
@@ -95,7 +93,7 @@ app/src/main/resources/META-INF/xposed/
 - 模块名：`澎湃商店净化`
 - 日志 tag：`HyperStore-AdFree`
 - `scope.list`：`com.xiaomi.market`
-- 不注册 launcher Activity。配置入口优先注入宿主设置页；无法稳定注入时再评估独立设置 Activity。
+- 不注册 launcher Activity。宿主设置页只注入一个入口，进入独立净化设置页；该页右上角提供重启图标。
 - 开关文件名：`hyper_store_helper`；未写入或读取失败时一律按「开启」处理。
 
 Hook 实现必须遵守：
@@ -109,10 +107,10 @@ Hook 实现必须遵守：
 7. 不阻塞全部网络请求，不篡改下载包、签名或安装校验。
 8. UI 修改必须幂等，兼容 RecyclerView 复用、页面重建和深浅色切换。
 9. 每个 hook 至少记录一条命中日志和一条类/方法缺失时的 `WARN` 日志，便于 `adb logcat` 定位。
-10. F5 只处理 `ACTION_MAIN + CATEGORY_LAUNCHER` 且没有 URI、`tag`、`subTag`、`extra_tab` 的正常启动；不得改变深链、通知或定向快捷入口的目标。
-11. F6 必须依据宿主实际主题调用现有状态栏能力，只修正状态栏前景图标明暗，不修改系统深浅色设置或页面内容。
-12. F7 只拦截 `MarketTabActivity` 主页面启动广告任务；不得影响应用详情页被动开屏广告、信息流、搜索广告和页面路由。
-13. F7 不得主动删除普通启动封面、品牌画面、隐私/用户协议或首启推荐；广告任务取消后沿用宿主清理流程。
+10. F3 的启动首页逻辑只处理 `ACTION_MAIN + CATEGORY_LAUNCHER` 且没有 URI、`tag`、`subTag`、`extra_tab` 的正常启动；不得改变深链、通知或定向快捷入口的目标。
+11. F7 只拦截 `MarketTabActivity` 主页面启动广告任务；不得影响应用详情页被动开屏广告、信息流、搜索广告和页面路由。
+12. F7 不得主动删除普通启动封面、品牌画面、隐私/用户协议或首启推荐；广告任务取消后沿用宿主清理流程。
+13. 设置页只提供一个净化入口，独立页面展示五项开关；重启按钮仅重新打开商店首页，不修改宿主数据、签名或账户状态。
 
 构建基线：
 
@@ -175,7 +173,7 @@ adb logcat -v threadtime | grep -E 'HyperStore-AdFree|AndroidRuntime|FATAL EXCEP
 ## 验收标准
 
 - 模块只加载到 `com.xiaomi.market`，其它应用和 system_server 没有该模块日志或行为变化。
-- `SPEC.md` 的七项功能在真机上稳定生效，重启商店、刷新和页面重建后仍然保持。
+- `SPEC.md` 的五项功能在真机上稳定生效，重启商店、刷新和页面重建后仍然保持。
 - 搜索、下载、安装、更新、卸载和账户功能正常，无崩溃、ANR、白屏或死循环。
 - 宿主版本不匹配或方法签名变化时，对应功能安全跳过，商店仍可正常使用。
 - 每个开关独立生效，默认开启；关闭后恢复宿主原始行为。

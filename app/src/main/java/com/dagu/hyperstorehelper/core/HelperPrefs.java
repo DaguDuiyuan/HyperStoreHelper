@@ -16,6 +16,7 @@ public final class HelperPrefs {
     public static final String KEY_HOME_FRUIT_ENTRY = "helper_home_fruit_entry";
     public static final String KEY_HOME_TOP_TABS = "helper_home_top_tabs";
     public static final String KEY_BOTTOM_NAV_GAMES = "helper_bottom_nav_games";
+    public static final String KEY_HIDE_RANK_TAB = "helper_hide_rank_tab";
     public static final String KEY_PROFILE_APP_RECOMMENDATIONS =
             "helper_profile_app_recommendations";
     public static final String KEY_STARTUP_ADS = "helper_startup_ads";
@@ -36,6 +37,11 @@ public final class HelperPrefs {
                     KEY_BOTTOM_NAV_GAMES,
                     "去除底部游戏导航并固定首页",
                     "移除底部「游戏」导航项；正常启动固定进入首页，不改变深链目标"),
+            new Feature(
+                    KEY_HIDE_RANK_TAB,
+                    "隐藏底部「榜单」导航",
+                    "从底部导航移除「榜单」入口；默认关闭",
+                    false),
             new Feature(
                     KEY_PROFILE_APP_RECOMMENDATIONS,
                     "去除我的页面应用推荐",
@@ -83,8 +89,13 @@ public final class HelperPrefs {
 
     /** Missing values and unreadable preferences both mean enabled. */
     public boolean isEnabled(String key) {
+        return isEnabled(key, true);
+    }
+
+    /** Missing values and unreadable preferences use the supplied default. */
+    public boolean isEnabled(String key, boolean defaultValue) {
         SharedPreferences preferences = prefs();
-        return preferences == null || preferences.getBoolean(key, true);
+        return preferences == null ? defaultValue : preferences.getBoolean(key, defaultValue);
     }
 
     public void write(String key, boolean value) {

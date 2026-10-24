@@ -36,7 +36,7 @@ public final class SettingsHook extends BaseHook {
     private static final String RESTART_TITLE = "重启应用";
     private static final String RESTART_NOTE_TITLE = "修改后需重启应用商店";
     private static final String RESTART_NOTE_SUMMARY =
-            "已打开的页面不会原地重建；重启后七项净化状态会按开关重新应用。";
+            "已打开的页面不会原地重建；重启后各项净化状态会按开关重新应用。";
 
     private final AtomicBoolean loggedEntry = new AtomicBoolean();
     private final AtomicBoolean loggedPage = new AtomicBoolean();
@@ -432,7 +432,8 @@ public final class SettingsHook extends BaseHook {
             setTitle.invoke(preference, feature.title);
             setSummary.invoke(preference, feature.summary);
             setPersistent.invoke(preference, false);
-            setChecked.invoke(preference, prefs.isEnabled(feature.key));
+            setChecked.invoke(preference,
+                    prefs.isEnabled(feature.key, feature.defaultEnabled));
             setOnPreferenceChangeListener.invoke(
                     preference, changeListener(feature.key));
             addPreference.invoke(page, preference);

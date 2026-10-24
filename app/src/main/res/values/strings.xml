@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">澎湃商店净化</string>
-    <string name="module_description">小米应用商店（com.xiaomi.market）界面净化模块：移除首页送水果入口，将首页顶部 Tab 限定为金米奖、软件、分类，移除底部游戏导航并让正常启动固定进入首页，移除「我的」页应用推荐，去除启动广告、游戏榜广告排名和下载页推荐区块。七项功能默认开启并可独立关闭。</string>
+    <string name="module_description">小米应用商店（com.xiaomi.market）界面净化模块：移除首页送水果入口，将首页顶部 Tab 限定为金米奖、软件、分类，移除底部游戏导航并让正常启动固定进入首页，移除「我的」页应用推荐，去除启动广告、游戏榜广告排名和下载页推荐区块；另提供默认关闭的底部「榜单」导航隐藏开关。所有开关均可独立控制。</string>
 </resources>

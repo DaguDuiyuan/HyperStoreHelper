@@ -61,7 +61,7 @@ public final class HomeStartupHook extends BaseHook {
 
     private void forceHomeOnLauncherIntent(
             Object wrapper, Class<?> pageConfigClass, String reason) {
-        if (!enabled(HelperPrefs.KEY_BOTTOM_NAV_GAMES)) {
+        if (!shouldForceHome()) {
             return;
         }
         try {
@@ -79,8 +79,7 @@ public final class HomeStartupHook extends BaseHook {
 
     private boolean forceHome(
             Object wrapper, Class<?> pageConfigClass, Intent intent, String reason) {
-        if (!enabled(HelperPrefs.KEY_BOTTOM_NAV_GAMES)
-                || !isNormalLauncherIntent(intent)) {
+        if (!shouldForceHome() || !isNormalLauncherIntent(intent)) {
             return false;
         }
         try {
@@ -109,6 +108,11 @@ public final class HomeStartupHook extends BaseHook {
             logFailure("F3 force home failed", throwable);
             return false;
         }
+    }
+
+    private boolean shouldForceHome() {
+        return enabled(HelperPrefs.KEY_BOTTOM_NAV_GAMES)
+                || prefs.isEnabled(HelperPrefs.KEY_HIDE_RANK_TAB, false);
     }
 
     private static boolean isNormalLauncherIntent(Intent intent) {

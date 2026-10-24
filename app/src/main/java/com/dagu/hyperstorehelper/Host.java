@@ -66,6 +66,15 @@ public final class Host {
     public static final String METHOD_DOUBLE_TAB_ON_RESUME = "onResume";
     public static final String METHOD_DOUBLE_TAB_ON_TAB_SELECTED = "onTabSelected";
 
+    public static final String CLASS_BOTTOM_TAB_LAYOUT_MIUX4 =
+            "com.xiaomi.market.widget.BottomTabLayoutMiux4";
+    public static final String METHOD_BOTTOM_TAB_PERFORM_SWITCH = "performTabSwitch";
+    public static final String METHOD_BOTTOM_TAB_ADD_FRAGMENT = "addFragmentTab";
+    public static final String CLASS_BOTTOM_NAVIGATOR =
+            "miuix.bottomnavigation.BottomNavigator";
+    public static final String METHOD_BOTTOM_NAVIGATOR_SELECT = "v0";
+    public static final String FIELD_TAB_NEED_PRELOAD = "needPreload";
+
     public static final String CLASS_NATIVE_MINE_FRAGMENT =
             "com.xiaomi.market.business_ui.main.mine.NativeMinePagerFragment";
     public static final String METHOD_BIND_AD_FRAGMENT_VIEW = "bindAdFragmentView";
@@ -97,6 +106,8 @@ public final class Host {
 
     public static final String PARENT_HOME_TAB = "native_market_home";
     public static final String BOTTOM_GAME_TAB = "native_market_game";
+    public static final String PARENT_RANK_TAB = "native_market_rank";
+    public static final String PARENT_MINE_TAB = "native_market_mine";
 
     /** Actual server tag order, verified in assets/page_configuration. */
     public static final String[] ALLOWED_HOME_TOP_TABS = {

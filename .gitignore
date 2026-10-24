@@ -1,0 +1,46 @@
+# macOS
+.DS_Store
+._*
+
+# IDEs
+.idea/
+.vscode/
+.fleet/
+*.iml
+
+# Gradle / Android / Kotlin
+.gradle/
+.kotlin/
+build/
+app/build/
+captures/
+.externalNativeBuild/
+.cxx/
+*.hprof
+
+# Local and generated configuration
+local.properties
+keystore.properties
+signing.properties
+
+# Reverse-engineering samples and generated outputs
+artifacts/
+jadx/
+apktool/
+
+# Build and signing outputs
+*.apk
+*.aab
+*.ap_
+*.dex
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+*.jks
+*.keystore
+*.p12
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+*~

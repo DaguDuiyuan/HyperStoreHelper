@@ -7,7 +7,9 @@ import com.dagu.hyperstorehelper.core.BaseHook;
 import com.dagu.hyperstorehelper.core.HelperPrefs;
 import com.dagu.hyperstorehelper.hooks.AppContextHook;
 import com.dagu.hyperstorehelper.hooks.BottomNavGamesHook;
+import com.dagu.hyperstorehelper.hooks.DownloadRecommendationsHook;
 import com.dagu.hyperstorehelper.hooks.FruitEntranceHook;
+import com.dagu.hyperstorehelper.hooks.GameRankAdsHook;
 import com.dagu.hyperstorehelper.hooks.HomeTopTabsHook;
 import com.dagu.hyperstorehelper.hooks.HomeStartupHook;
 import com.dagu.hyperstorehelper.hooks.MineRecommendationsHook;
@@ -59,6 +61,8 @@ public final class Main extends XposedModule {
         hooks.add(new MineRecommendationsHook(this, prefs));
         hooks.add(new HomeStartupHook(this, prefs));
         hooks.add(new StartupAdsHook(this, prefs));
+        hooks.add(new GameRankAdsHook(this, prefs));
+        hooks.add(new DownloadRecommendationsHook(this, prefs));
         hooks.add(new SettingsHook(this, prefs));
         return hooks;
     }

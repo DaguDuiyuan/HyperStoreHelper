@@ -19,6 +19,9 @@ public final class HelperPrefs {
     public static final String KEY_PROFILE_APP_RECOMMENDATIONS =
             "helper_profile_app_recommendations";
     public static final String KEY_STARTUP_ADS = "helper_startup_ads";
+    public static final String KEY_GAME_RANK_ADS = "helper_game_rank_ads";
+    public static final String KEY_DOWNLOAD_RECOMMENDATIONS =
+            "helper_download_recommendations";
 
     public static final Feature[] FEATURES = {
             new Feature(
@@ -41,6 +44,14 @@ public final class HelperPrefs {
                     KEY_STARTUP_ADS,
                     "去除启动广告",
                     "跳过主页面冷启动和回到前台时的开屏广告，保留普通启动流程"),
+            new Feature(
+                    KEY_GAME_RANK_ADS,
+                    "游戏榜去除广告排名",
+                    "移除榜单游戏榜中的广告条目，并重新连续编号"),
+            new Feature(
+                    KEY_DOWNLOAD_RECOMMENDATIONS,
+                    "下载页去除推荐区块",
+                    "移除「最近安装完成」「大家还安装了」和「为你优选」"),
     };
 
     private static volatile Context sAppContext;

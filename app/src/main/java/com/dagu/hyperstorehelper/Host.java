@@ -29,6 +29,36 @@ public final class Host {
     public static final String CLASS_PAGE_CONFIG = "com.xiaomi.market.model.PageConfig";
     public static final String METHOD_PAGE_CONFIG_UPDATE_TABS = "updateTabs";
 
+    public static final String CLASS_RANK_TAB_FRAGMENT =
+            "com.xiaomi.market.business_ui.main.rank.RankTabFragment";
+    public static final String METHOD_RANK_TRY_ADD_RANK = "tryAddRank";
+    public static final String METHOD_RANK_TRY_FILTER = "tryFilter";
+    public static final String METHOD_RANK_GET_PAGE_TAB_TAG = "getPageTabTag";
+    public static final String CLASS_BASE_NATIVE_COMPONENT =
+            "com.xiaomi.market.common.component.componentbeans.BaseNativeComponent";
+    public static final String METHOD_COMPONENT_GET_DATA_BEAN = "getDataBean";
+    public static final String CLASS_BASE_APP_DATA_BEAN =
+            "com.xiaomi.market.common.component.componentbeans.BaseAppDataBean";
+    public static final String METHOD_BASE_APP_IS_SHOW_AD_TAG = "isShowAdTag";
+    public static final String RANK_GAME_TAB_MARKER = "game";
+
+    public static final String CLASS_DOWNLOAD_LIST_FRAGMENT =
+            "com.xiaomi.market.ui.DownloadListFragment";
+    public static final String METHOD_DOWNLOAD_SET_RECOMMEND_GROUP = "setRecommendGroup";
+    public static final String METHOD_DOWNLOAD_ADD_UNACTIVE = "addUnActiveApp";
+    public static final String CLASS_RECOMMEND_GROUP_INFO =
+            "com.xiaomi.market.model.RecommendGroupInfo";
+    public static final String FIELD_RECOMMEND_GROUP_REC_POSITION = "recPosition";
+    public static final String FIELD_RECOMMEND_GROUP_TITLE = "title";
+    public static final String REC_POSITION_INSTALL_RECORD = "installRecord";
+    public static final String REC_POSITION_REC_FOR_YOU = "recForYou";
+    public static final String REC_POSITION_DOWNLOAD_QUEUE = "downloadQueue";
+    public static final String[] DOWNLOAD_RECOMMENDATION_TITLES = {
+            "最近安装完成",
+            "大家还安装了",
+            "为你优选",
+    };
+
     public static final String CLASS_DOUBLE_TAB_PROXY_ACTIVITY_WRAPPER =
             "com.xiaomi.market.ui.DoubleTabProxyActivityWrapper";
     public static final String METHOD_DOUBLE_TAB_INIT_TAB = "initTab";

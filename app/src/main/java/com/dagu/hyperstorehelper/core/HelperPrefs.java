@@ -27,12 +27,13 @@ public final class HelperPrefs {
             "helper_update_page_recommendations";
     public static final String KEY_UPDATE_AUTO_EXPAND =
             "helper_update_auto_expand";
+    public static final String KEY_SEARCH_RESULT_ADS = "helper_search_result_ads";
 
     public static final Feature[] FEATURES = {
             new Feature(
                     KEY_HOME_FRUIT_ENTRY,
-                    "首页去除送水果入口",
-                    "隐藏首页顶部的送水果 / 种果树活动入口"),
+                    "去除送水果 / 种树入口",
+                    "隐藏首页顶部及应用详情页右上角的送水果 / 种果树活动入口"),
             new Feature(
                     KEY_HOME_TOP_TABS,
                     "首页顶部 Tab 白名单",
@@ -60,8 +61,8 @@ public final class HelperPrefs {
                     "移除榜单游戏榜中的广告条目，并重新连续编号"),
             new Feature(
                     KEY_DOWNLOAD_RECOMMENDATIONS,
-                    "下载页去除推荐区块",
-                    "移除「最近安装完成」「大家还安装了」和「为你优选」"),
+                    "下载与升级记录去除推荐",
+                    "移除下载队列和升级记录页的推荐区块，保留真实任务与升级记录"),
             new Feature(
                     KEY_UPDATE_PAGE_RECOMMENDATIONS,
                     "应用升级页去除推荐区块",
@@ -70,6 +71,10 @@ public final class HelperPrefs {
                     KEY_UPDATE_AUTO_EXPAND,
                     "自动展开应用升级列表",
                     "进入应用升级页时直接展示全部可升级应用，不显示折叠行"),
+            new Feature(
+                    KEY_SEARCH_RESULT_ADS,
+                    "搜索列表去除广告排名",
+                    "移除搜索结果中的顶部广告卡片和带广告标记的应用条目，保留正常搜索排名"),
     };
 
     private static volatile Context sAppContext;

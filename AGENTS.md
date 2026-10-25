@@ -55,23 +55,24 @@ shasum -a 256 artifacts/com.xiaomi.market/<versionName>/base.apk
 
 ## 当前功能范围
 
-当前实现 `SPEC.md` 定义的十项功能；F1–F4、F7–F9、F11–F12 为 P0 且默认开启，F10 默认关闭。
-十项均必须独立可控：
+当前实现 `SPEC.md` 定义的十一项功能；F1–F4、F7–F9、F11–F13 为 P0 且默认开启，F10 默认关闭。
+十一项均必须独立可控：
 
 | ID | 功能 | 开关键 |
 | --- | --- | --- |
-| `F1` | 首页顶部去除「送水果」入口 | `helper_home_fruit_entry` |
+| `F1` | 首页顶部及应用详情页右上角去除「送水果 / 种树」入口 | `helper_home_fruit_entry` |
 | `F2` | 首页顶部 Tab 仅保留「金米奖、软件、分类」，并按规定顺序排列 | `helper_home_top_tabs` |
 | `F3` | 底部导航栏去除「游戏」，并让正常启动固定进入首页 | `helper_bottom_nav_games` |
 | `F4` | 「我的」页面去除「应用推荐」 | `helper_profile_app_recommendations` |
 | `F7` | 去除主页面启动广告 | `helper_startup_ads` |
 | `F8` | 榜单游戏榜去除广告排名 | `helper_game_rank_ads` |
-| `F9` | 下载队列页去除「最近安装完成」「大家还安装了」「为你优选」 | `helper_download_recommendations` |
+| `F9` | 下载队列页及升级记录页去除推荐区块 | `helper_download_recommendations` |
 | `F10` | 隐藏底部导航「榜单」Tab（默认关闭） | `helper_hide_rank_tab` |
 | `F11` | 应用升级页去除「精选推荐」「热门下载」「大家还安装了」 | `helper_update_page_recommendations` |
 | `F12` | 自动展开应用升级列表 | `helper_update_auto_expand` |
+| `F13` | 搜索列表去除广告排名 | `helper_search_result_ads` |
 
-信息流广告、搜索广告、应用详情页被动开屏广告、更新弹窗和红点等仍不在当前范围。任何新增功能必须先修改 `SPEC.md` 并取得确认。
+信息流广告、搜索无结果填充广告、搜索建议/热词广告、应用详情页被动开屏广告、更新弹窗和红点等仍不在当前范围。任何新增功能必须先修改 `SPEC.md` 并取得确认。
 
 ## 技术方案
 
@@ -116,12 +117,14 @@ Hook 实现必须遵守：
 10. F3 的启动首页逻辑只处理 `ACTION_MAIN + CATEGORY_LAUNCHER` 且没有 URI、`tag`、`subTag`、`extra_tab` 的正常启动；不得改变深链、通知或定向快捷入口的目标。
 11. F7 只拦截 `MarketTabActivity` 主页面启动广告任务；不得影响应用详情页被动开屏广告、信息流、搜索广告和页面路由。
 12. F7 不得主动删除普通启动封面、品牌画面、隐私/用户协议或首启推荐；广告任务取消后沿用宿主清理流程。
-13. 设置页只提供一个净化入口，独立页面展示十项开关；重启按钮仅重新打开商店首页，不修改宿主数据、签名或账户状态。
+13. 设置页只提供一个净化入口，独立页面展示十一项开关；重启按钮仅重新打开商店首页，不修改宿主数据、签名或账户状态。
 14. F8 只处理游戏榜广告排名，按宿主 `BaseAppDataBean.isShowAdTag()` 识别并在排名前过滤；不得影响软件榜、其它榜单、下载或详情页。
-15. F9 只移除下载队列页的 `installRecord` / `recForYou` 推荐分组和本地「最近安装完成」模块，不得删除真实下载任务或阻断下载/安装操作。
+15. F9 只移除下载队列页的 `installRecord` / `recForYou` 推荐分组、本地「最近安装完成」模块，以及升级记录页的推荐网格和 `updateRecommendList(...)` 推荐分组；两页共用 `helper_download_recommendations`，不得删除真实下载任务、升级记录或阻断下载/安装/升级记录功能。
 16. F11 不得跳过升级页 `loadRecommendData()` 等宿主加载流程，只能在推荐分组、推荐网格和相关推荐数据生成/渲染处过滤；必须保留真实升级列表、升级全部按钮和本地升级检查。
 17. F12 在旧版 `UpdateListRvAdapter.updateData(List)` 和 V2 `UpdateComponentManager.buildComponentList(...)` 前设置展开状态；不得修改真实升级数据、排序或模拟点击折叠按钮。
 18. 金米奖 H5 缓存只能对 `zone/goldMiV2` 注入宿主已有的 H5 代理 LRU 参数并按日期分桶；不得全局开启 H5 缓存或影响其它 WebView 请求。
+19. F13 只过滤 `NativeSearchResultFragment.parseResponseData(...)` 返回的搜索结果：按显式搜索广告组件类型和 `BaseAppDataBean.isShowAdTag()` 移除广告条目；不得按文案猜测，不得删除无结果填充广告、搜索历史/建议、普通结果或业务 Tab。
+20. F1 除首页 `EntranceView` 外，还必须通过详情页 `DetailOrchardIconController.shouldShowEntry(...)` 隐藏右上角种树入口，并与首页入口共用 `helper_home_fruit_entry`；不得影响详情页返回、搜索、菜单、下载或其它 ActionBar 功能。
 
 构建基线：
 
@@ -184,7 +187,7 @@ adb logcat -v threadtime | grep -E 'HyperStore-AdFree|AndroidRuntime|FATAL EXCEP
 ## 验收标准
 
 - 模块只加载到 `com.xiaomi.market`，其它应用和 system_server 没有该模块日志或行为变化。
-- `SPEC.md` 的十项功能在真机上按各自开关稳定生效，重启商店、刷新和页面重建后仍然保持。
+- `SPEC.md` 的十一项功能在真机上按各自开关稳定生效，重启商店、刷新和页面重建后仍然保持。
 - 搜索、下载、安装、更新、卸载和账户功能正常，无崩溃、ANR、白屏或死循环。
 - 宿主版本不匹配或方法签名变化时，对应功能安全跳过，商店仍可正常使用。
 - 每个开关独立生效；除 F10 默认关闭外均默认开启，关闭后恢复宿主原始行为。

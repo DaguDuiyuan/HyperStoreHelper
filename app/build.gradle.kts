@@ -10,8 +10,8 @@ android {
         applicationId = "com.dagu.hyperstorehelper"
         minSdk = 26
         targetSdk = 36
-        versionCode = 14
-        versionName = "1.12.1"
+        versionCode = 17
+        versionName = "1.13.2"
     }
 
     buildTypes {

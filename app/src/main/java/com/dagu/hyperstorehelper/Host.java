@@ -20,6 +20,15 @@ public final class Host {
     public static final String CLASS_FRUIT_ENTRANCE =
             "com.xiaomi.market.ui.entrance.EntranceView";
     public static final String METHOD_FRUIT_BIND_VIEW = "bindView";
+    public static final String CLASS_DETAIL_ORCHARD_ICON_CONTROLLER =
+            "com.xiaomi.market.business_ui.detail.DetailOrchardIconController";
+    public static final String CLASS_DETAIL_TYPE =
+            "com.xiaomi.market.business_ui.detail.DetailType";
+    public static final String METHOD_DETAIL_ORCHARD_SHOULD_SHOW_ENTRY =
+            "shouldShowEntry";
+    public static final String METHOD_DETAIL_ORCHARD_REFRESH_INTERNAL =
+            "refreshInternal";
+    public static final String FIELD_DETAIL_ORCHARD_ICON_VIEW = "orchardIconView";
 
     public static final String CLASS_PAGER_TABS_INFO = "com.xiaomi.market.ui.PagerTabsInfo";
     public static final String CLASS_TAB_INFO = "com.xiaomi.market.model.TabInfo";
@@ -36,11 +45,29 @@ public final class Host {
     public static final String METHOD_RANK_GET_PAGE_TAB_TAG = "getPageTabTag";
     public static final String CLASS_BASE_NATIVE_COMPONENT =
             "com.xiaomi.market.common.component.componentbeans.BaseNativeComponent";
+    public static final String METHOD_COMPONENT_GET_TYPE = "getComponentType";
     public static final String METHOD_COMPONENT_GET_DATA_BEAN = "getDataBean";
     public static final String CLASS_BASE_APP_DATA_BEAN =
             "com.xiaomi.market.common.component.componentbeans.BaseAppDataBean";
     public static final String METHOD_BASE_APP_IS_SHOW_AD_TAG = "isShowAdTag";
     public static final String RANK_GAME_TAB_MARKER = "game";
+
+    public static final String CLASS_NATIVE_SEARCH_RESULT_FRAGMENT =
+            "com.xiaomi.market.business_ui.search.NativeSearchResultFragment";
+    public static final String METHOD_SEARCH_PARSE_RESPONSE_DATA = "parseResponseData";
+    /**
+     * Explicit search-result ad wrappers in 4.129.s.00. Search ad-tagged apps
+     * which use ordinary list components are detected separately through
+     * BaseAppDataBean.isShowAdTag().
+     */
+    public static final String[] SEARCH_RESULT_AD_COMPONENT_TYPES = {
+            "nativeSearchTopAdNormalApp",
+            "nativeSearchTopAdDetailApp",
+            "nativeSearchTopAdRichMediaApp",
+            "nativeSearchTopAdHatchApp",
+            "h5TextLinkAd",
+            "searchTopAdApp",
+    };
 
     public static final String CLASS_DOWNLOAD_LIST_FRAGMENT =
             "com.xiaomi.market.ui.DownloadListFragment";
@@ -58,6 +85,16 @@ public final class Host {
             "大家还安装了",
             "为你优选",
     };
+    public static final String CLASS_UPDATE_HISTORY_FRAGMENT_PHONE =
+            "com.xiaomi.market.ui.UpdateHistoryFragmentPhone";
+    public static final String CLASS_UPDATE_HISTORY_RV_ADAPTER_PHONE =
+            "com.xiaomi.market.ui.UpdateHistoryRvAdapterPhone";
+    public static final String CLASS_SHALLOW_CLONEABLE =
+            "com.xiaomi.market.data.ShallowCloneable";
+    public static final String METHOD_UPDATE_HISTORY_RECOMMEND_GRID_FINISH =
+            "onLoadRecommendGridFinish";
+    public static final String METHOD_UPDATE_HISTORY_UPDATE_RECOMMEND_LIST =
+            "updateRecommendList";
 
     public static final String CLASS_UPDATE_LIST_V2_FRAGMENT =
             "com.xiaomi.market.ui.update.UpdateListV2Fragment";

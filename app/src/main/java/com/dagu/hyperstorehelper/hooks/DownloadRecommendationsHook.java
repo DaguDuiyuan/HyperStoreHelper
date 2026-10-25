@@ -12,11 +12,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import io.github.libxposed.api.XposedModule;
 
-/** F9: remove recommendation blocks from the download queue page. */
+/** F9: remove recommendation blocks from download queue and update history. */
 public final class DownloadRecommendationsHook extends BaseHook {
 
     private final AtomicBoolean loggedGroups = new AtomicBoolean();
     private final AtomicBoolean loggedUnActive = new AtomicBoolean();
+    private final AtomicBoolean loggedHistoryGrid = new AtomicBoolean();
+    private final AtomicBoolean loggedHistoryList = new AtomicBoolean();
 
     public DownloadRecommendationsHook(XposedModule module, HelperPrefs prefs) {
         super(module, prefs);
@@ -24,6 +26,11 @@ public final class DownloadRecommendationsHook extends BaseHook {
 
     @Override
     public void install(ClassLoader cl) {
+        installDownloadQueue(cl);
+        installUpdateHistory(cl);
+    }
+
+    private void installDownloadQueue(ClassLoader cl) {
         Class<?> downloadFragment = Reflect.loadClass(cl, Host.CLASS_DOWNLOAD_LIST_FRAGMENT);
         Class<?> recommendGroup = Reflect.loadClass(cl, Host.CLASS_RECOMMEND_GROUP_INFO);
         Method setRecommendGroup = Reflect.findMethod(
@@ -59,6 +66,57 @@ public final class DownloadRecommendationsHook extends BaseHook {
                 return null;
             }
             return chain.proceed();
+        });
+    }
+
+    private void installUpdateHistory(ClassLoader cl) {
+        Class<?> fragment = Reflect.loadClass(
+                cl, Host.CLASS_UPDATE_HISTORY_FRAGMENT_PHONE);
+        Class<?> adapter = Reflect.loadClass(
+                cl, Host.CLASS_UPDATE_HISTORY_RV_ADAPTER_PHONE);
+        Class<?> shallowCloneable = Reflect.loadClass(
+                cl, Host.CLASS_SHALLOW_CLONEABLE);
+
+        Method gridFinish = Reflect.findMethod(
+                fragment,
+                Host.METHOD_UPDATE_HISTORY_RECOMMEND_GRID_FINISH,
+                shallowCloneable);
+        if (gridFinish == null) {
+            gridFinish = Reflect.findMethodByName(
+                    fragment, Host.METHOD_UPDATE_HISTORY_RECOMMEND_GRID_FINISH);
+        }
+        if (gridFinish == null) {
+            logWarn(Host.CLASS_UPDATE_HISTORY_FRAGMENT_PHONE
+                    + ".onLoadRecommendGridFinish(ShallowCloneable) not found");
+        } else {
+            hook(gridFinish).intercept(chain -> {
+                if (enabled(HelperPrefs.KEY_DOWNLOAD_RECOMMENDATIONS)) {
+                    if (loggedHistoryGrid.compareAndSet(false, true)) {
+                        logInfo("F9 update-history featured recommendation suppressed");
+                    }
+                    return null;
+                }
+                return chain.proceed();
+            });
+        }
+
+        Method updateRecommendList = Reflect.findMethod(
+                adapter,
+                Host.METHOD_UPDATE_HISTORY_UPDATE_RECOMMEND_LIST,
+                List.class);
+        if (updateRecommendList == null) {
+            logWarn(Host.CLASS_UPDATE_HISTORY_RV_ADAPTER_PHONE
+                    + ".updateRecommendList(List) not found");
+            return;
+        }
+        hook(updateRecommendList).intercept(chain -> {
+            if (!enabled(HelperPrefs.KEY_DOWNLOAD_RECOMMENDATIONS)) {
+                return chain.proceed();
+            }
+            if (loggedHistoryList.compareAndSet(false, true)) {
+                logInfo("F9 update-history recommendation groups suppressed");
+            }
+            return chain.proceed(new Object[]{new ArrayList<>()});
         });
     }
 

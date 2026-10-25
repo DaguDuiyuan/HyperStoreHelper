@@ -9,7 +9,7 @@
 - 宿主：`com.xiaomi.market` `4.129.s.00`（versionCode `40007700`）
 - 基线设备：Xiaomi 14，HyperOS `OS4.0.18.0.XNCCNXM`
 - 模块 ID：`com.dagu.hyperstorehelper`
-- 模块版本：`1.12.0`（versionCode `13`）
+- 模块版本：`1.12.1`（versionCode `14`）
 - 日志 tag：`HyperStore-AdFree`
 - Xposed API：102
 
@@ -52,6 +52,8 @@ export JAVA_HOME=/path/to/standard-jdk-17
   Tab 切换路径中读取 `Client.isEnableDarkMode(Context)`，并调用宿主
   `UIUtils.setStatusBarDarkModeV2(Activity, boolean)`（缺失时回退到旧方法）。
   该修正固定启用，不提供开关，仍待真机确认。
+- `1.12.1` 修复金米奖 H5 缓存：仅匹配 `/apm/zone/goldMiV2`，并将日期、URL 和完整业务
+  参数纳入缓存 key，避免首次打开黑屏以及不同请求/分页读到同一份缓存。待真机确认。
 - 搜索、下载、安装、更新、卸载、重启按钮和完整前后台回归仍需继续验收。
 - 在完成完整真机验收前，不应把任何功能标记为「已验证生效」。
 

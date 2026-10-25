@@ -87,7 +87,7 @@ public final class Host {
             "com.xiaomi.market.common.webview.WebEvent";
     public static final String METHOD_WEB_EVENT_REQUEST = "request";
     public static final String METHOD_WEB_EVENT_SEND_CALLBACK = "sendDataToCallback";
-    public static final String GOLDEN_AWARD_REQUEST_MARKER = "goldmi";
+    public static final String GOLDEN_AWARD_REQUEST_PATH = "/apm/zone/goldMiV2";
     public static final String WEB_EVENT_PARAM_SHOULD_INTERCEPT =
             "shouldNativeInterceptRequest";
     public static final String WEB_EVENT_PARAM_NEED_LRU_CACHE = "needLruCache";
